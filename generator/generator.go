@@ -48,9 +48,11 @@ func Run(args []string) {
 		}
 		services[s[0]] = port
 	}
-	for name, port := range services {
-		fmt.Println("name:", name, "port:", port)
+	p := project{
+		name:     projectName,
+		services: services,
 	}
+	p.create()
 }
 
 var names []string
