@@ -35,4 +35,5 @@ func (p *project) create() {
 		checkError(err)
 		fmt.Println(p.name + f + " created.")
 	}
+	fmt.Println("micgo completed.")
 }

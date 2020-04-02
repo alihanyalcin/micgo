@@ -108,8 +108,8 @@ func checkPortValid(port string) (bool, int) {
 				fmt.Println("HELP!")
 				return false, 0
 			}
-			ports = append(ports, p)
 		}
+		ports = append(ports, p)
 	}
 	return true, p
 }
