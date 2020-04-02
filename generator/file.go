@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -35,5 +36,53 @@ func (p *project) create() {
 		checkError(err)
 		fmt.Println(p.name + f + " created.")
 	}
+
+	p.createServices()
+
 	fmt.Println("micgo completed.")
+}
+
+func (p *project) createServices() {
+	// create /internal/services*
+	for service, _ := range p.services {
+		// create directories
+		servicePath := p.name + internal + "/" + service
+		fullServicePath := servicePath + "/config"
+		err := os.MkdirAll(fullServicePath, 0775)
+		checkError(err)
+
+		err = filepath.Walk(basePath+internalService,
+			func(path string, info os.FileInfo, err error) error {
+				if err != nil {
+					return err
+				}
+				if strings.Contains(path, ".go") {
+					name := strings.Split(path, "/")
+					// get index of "service"
+					index := func() int {
+						for k, v := range name {
+							if v == "service" {
+								return k
+							}
+						}
+						return 0
+					}()
+
+					fileName := strings.Join(name[index+1:], "/")
+					// create config.go files
+					sfile, err := ioutil.ReadFile(path)
+					checkError(err)
+
+					replacer := strings.NewReplacer("project", p.name, "servicename", service)
+					dfile := replacer.Replace(string(sfile))
+
+					err = ioutil.WriteFile(servicePath+"/"+fileName, []byte(dfile), 0644)
+					checkError(err)
+				}
+				return nil
+			})
+		checkError(err)
+
+		fmt.Println(service + " created.")
+	}
 }
