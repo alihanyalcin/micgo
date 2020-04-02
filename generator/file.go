@@ -37,13 +37,16 @@ func (p *project) create() {
 		fmt.Println(p.name + f + " created.")
 	}
 
-	p.createServices()
+	// create /internal/services*
+	p.createInternalServices()
+
+	// create /cmd/services*
+	p.createCmdServices()
 
 	fmt.Println("micgo completed.")
 }
 
-func (p *project) createServices() {
-	// create /internal/services*
+func (p *project) createInternalServices() {
 	for service, _ := range p.services {
 		// create directories
 		servicePath := p.name + internal + "/" + service
@@ -71,18 +74,25 @@ func (p *project) createServices() {
 					fileName := strings.Join(name[index+1:], "/")
 					// create config.go files
 					sfile, err := ioutil.ReadFile(path)
-					checkError(err)
+					if err != nil {
+						return err
+					}
 
 					replacer := strings.NewReplacer("project", p.name, "servicename", service)
 					dfile := replacer.Replace(string(sfile))
 
 					err = ioutil.WriteFile(servicePath+"/"+fileName, []byte(dfile), 0644)
-					checkError(err)
+					if err != nil {
+						return nil
+					}
+					fmt.Println(servicePath + "/" + fileName + " created.")
 				}
 				return nil
 			})
 		checkError(err)
-
-		fmt.Println(service + " created.")
 	}
+}
+
+func (p *project) createCmdServices() {
+	// TODO: create cmd services
 }

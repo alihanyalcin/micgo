@@ -1,0 +1,29 @@
+[Service]
+BootTimeout = 30000
+ClientMonitor = 15000
+CheckInterval = '10s'
+Host = '0.0.0.0'
+Port = portnumber
+Protocol = 'http'
+MaxResultCount = 50000
+StartupMsg = 'This is the servicename Microservice'
+Timeout = 5000
+
+[Databases]
+  [Databases.Primary]
+  Host = 'mongodb'
+  Name = 'servicename'
+  Username = ''
+  Password = ''
+  Port = 27017
+  Timeout = 5000
+  Type = 'mongodb'
+
+[Logging]
+LogLevel = 'TRACE'
+EnableRemote = false
+File = './logs/test.log'
+
+[Startup]
+Duration = 30
+Interval = 1
