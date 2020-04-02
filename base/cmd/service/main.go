@@ -30,7 +30,7 @@ func main() {
 	configuration := &config.ConfigurationStruct{}
 	dic := di.NewContainer(di.ServiceConstructorMap{})
 
-	httpServer := httpserver.NewBootstrap(test.LoadRestRoutes())
+	httpServer := httpserver.NewBootstrap(servicename.LoadRestRoutes())
 	bootstrap.Run(
 		configDir,
 		profileDir,
@@ -41,7 +41,7 @@ func main() {
 		dic,
 		[]interfaces.BootstrapHandler{
 			database.NewDatabase(&httpServer, configuration).BootstrapHandler,
-			test.BootstrapHandler,
+			servicename.BootstrapHandler,
 			httpServer.BootstrapHandler,
 			telemetry.BootstrapHandler,
 			message.NewBootstrap("servicename", project.Version).BootstrapHandler,
