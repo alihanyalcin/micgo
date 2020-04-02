@@ -13,8 +13,8 @@ import (
 	"project/internal/pkg/di"
 	"project/internal/pkg/telemetry"
 	"project/internal/pkg/usage"
+	"project/internal/servicename"
 	"project/internal/servicename/config"
-	"project/internal/test"
 )
 
 func main() {
