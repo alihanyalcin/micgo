@@ -7,6 +7,7 @@ var (
 	bin             = "/bin"
 	cmd             = "/cmd"
 	internal        = "/internal"
+	internalPackage = "/internal/pkg"
 	internalService = "/internal/service"
 )
 

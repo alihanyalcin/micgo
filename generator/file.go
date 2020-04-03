@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -16,8 +17,12 @@ func checkError(e error) {
 
 func (p *project) create() {
 	fmt.Println("Starting to generate project", p.name)
+
+	//p.cre("internal", "internal", "pkg")
+	//p.cre("internal", "internal", "service")
+	p.cre("cmd", "cmd", "service")
 	// Create project directory
-	err := os.Mkdir(p.name, 0755)
+	/*err := os.Mkdir(p.name, 0755)
 	checkError(err)
 
 	// create directories
@@ -43,7 +48,7 @@ func (p *project) create() {
 	// create /cmd/services*
 	p.createCmdServices()
 
-	fmt.Println("micgo completed.")
+	fmt.Println("micgo completed.")*/
 }
 
 func (p *project) createInternalServices() {
@@ -93,6 +98,73 @@ func (p *project) createInternalServices() {
 	}
 }
 
-func (p *project) createCmdServices() {
-	// TODO: create cmd services
+func (p *project) cre(key, dir, sub string) {
+	service := make(map[string]int)
+	if strings.Contains(sub, "service") {
+		service = p.services
+	} else {
+		service = map[string]int{"": 0}
+	}
+
+	for service, port := range service {
+		if service != "" {
+			err := os.MkdirAll(p.name+"/"+dir+"/"+service, 0775)
+			checkError(err)
+		}
+		err := filepath.Walk(basePath+"/"+dir+"/"+sub,
+			func(path string, info os.FileInfo, err error) error {
+				if err != nil {
+					return err
+				}
+
+				name := strings.Split(path, "/")
+				// get index of key
+				index := func() int {
+					for k, v := range name {
+						if v == key {
+							return k
+						}
+					}
+					return 0
+				}()
+
+				fileName := strings.Join(name[index:], "/")
+				//fmt.Println(p.name+"/"+fileName)
+
+				err = p.createFilesAndDirectories(fileName, path, service, strconv.Itoa(port))
+				if err != nil {
+					return err
+				}
+
+				return nil
+			})
+		checkError(err)
+	}
+}
+
+func (p *project) createFilesAndDirectories(fileName, path, service string, port string) error {
+	if strings.Contains(fileName, ".go") ||
+		strings.Contains(fileName, "Dockerfile") ||
+		strings.Contains(fileName, ".toml") {
+		source, err := ioutil.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		replacer := strings.NewReplacer("project", p.name,
+			"servicename", service,
+			"portnumber", string(port))
+
+		destination := replacer.Replace(string(source))
+
+		err = ioutil.WriteFile(p.name+"/"+strings.Replace(fileName, "service", service, -1), []byte(destination), 0644)
+		if err != nil {
+			return err
+		}
+	} else {
+		err := os.MkdirAll(p.name+"/"+strings.Replace(fileName, "service", service, -1), 0775)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
