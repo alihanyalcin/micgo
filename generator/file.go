@@ -18,9 +18,9 @@ func checkError(e error) {
 func (p *project) create() {
 	fmt.Println("Starting to generate project", p.name)
 
-	//p.cre("internal", "internal", "pkg")
-	//p.cre("internal", "internal", "service")
-	p.cre("cmd", "cmd", "service")
+	p.cre("internal", "pkg")
+	p.cre("internal", "service")
+	p.cre("cmd", "service")
 	// Create project directory
 	/*err := os.Mkdir(p.name, 0755)
 	checkError(err)
@@ -98,9 +98,9 @@ func (p *project) createInternalServices() {
 	}
 }
 
-func (p *project) cre(key, dir, sub string) {
+func (p *project) cre(key, dir string) {
 	service := make(map[string]int)
-	if strings.Contains(sub, "service") {
+	if strings.Contains(dir, "service") {
 		service = p.services
 	} else {
 		service = map[string]int{"": 0}
@@ -108,10 +108,10 @@ func (p *project) cre(key, dir, sub string) {
 
 	for service, port := range service {
 		if service != "" {
-			err := os.MkdirAll(p.name+"/"+dir+"/"+service, 0775)
+			err := os.MkdirAll(p.name+"/"+key+"/"+service, 0775)
 			checkError(err)
 		}
-		err := filepath.Walk(basePath+"/"+dir+"/"+sub,
+		err := filepath.Walk(basePath+"/"+key+"/"+dir,
 			func(path string, info os.FileInfo, err error) error {
 				if err != nil {
 					return err
