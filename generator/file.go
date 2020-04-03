@@ -18,15 +18,16 @@ func checkError(e error) {
 func (p *project) create() {
 	fmt.Println("Starting to generate project", p.name)
 
+	// create directories and files
 	p.walk("internal", "/pkg")
 	p.walk("internal", "/service")
 	p.walk("cmd", "/service")
-	p.createFilesAndDirectories("README.md", basePath+"README.md", "", "")
-	p.createFilesAndDirectories("go.mod", basePath+"go.mod", "", "")
-	p.createFilesAndDirectories("VERSION", basePath+"VERSION", "", "")
-	p.createFilesAndDirectories("version.go", basePath+"version.go", "", "")
-
-	fmt.Println("micgo completed.")
+	// create single files
+	for file, path := range files {
+		err := p.createFilesAndDirectories(file, path, "", "")
+		checkError(err)
+	}
+	fmt.Println("Completed.")
 }
 
 func (p *project) walk(key, dir string) {
@@ -89,11 +90,12 @@ func (p *project) createFilesAndDirectories(fileName, path, service, port string
 			"portnumber", port)
 
 		destination := replacer.Replace(string(source))
-
-		err = ioutil.WriteFile(p.name+"/"+strings.Replace(fileName, "service", service, -1), []byte(destination), 0644)
+		destPath := p.name + "/" + strings.Replace(fileName, "service", service, -1)
+		err = ioutil.WriteFile(destPath, []byte(destination), 0644)
 		if err != nil {
 			return err
 		}
+		fmt.Println(destPath, "created.")
 	} else {
 		err := os.MkdirAll(p.name+"/"+strings.Replace(fileName, "service", service, -1), 0775)
 		if err != nil {
