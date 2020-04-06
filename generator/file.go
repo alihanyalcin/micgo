@@ -87,8 +87,12 @@ func (p *project) createProjectFiles(sourcePath, destinationPath, service, port 
 		return err
 	}
 	var replacer *strings.Replacer
+	var perm os.FileMode = 0664
 	if strings.Contains(sourcePath, "Makefile") {
 		replacer = p.createMakefile()
+	} else if strings.Contains(sourcePath, ".sh") {
+		replacer = p.createScript()
+		perm = 0775
 	} else {
 		replacer = strings.NewReplacer("project", p.name,
 			"servicename", service,
@@ -97,7 +101,7 @@ func (p *project) createProjectFiles(sourcePath, destinationPath, service, port 
 
 	d := replacer.Replace(string(s))
 	path := p.name + "/" + destinationPath
-	err = ioutil.WriteFile(path, []byte(d), 0644)
+	err = ioutil.WriteFile(path, []byte(d), perm)
 	if err != nil {
 		return err
 	}
@@ -143,4 +147,19 @@ func (p *project) createMakefile() *strings.Replacer {
 		"builds", builds,
 		"dockers", dockers,
 		"dockerbuilds", dockerBuilds)
+}
+
+func (p *project) createScript() *strings.Replacer {
+	var microservice = "# servicename Microservice\n" +
+		"cd $CMD/servicename\n" +
+		"exec -a project-servicename ./servicename &\n" +
+		"cd $DIR\n"
+	var services string
+
+	for service, _ := range p.services {
+		services += strings.NewReplacer("servicename", service, "project", p.name).Replace(microservice) + "\n"
+	}
+
+	return strings.NewReplacer("project", p.name,
+		"services", services)
 }
