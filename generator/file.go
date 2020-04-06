@@ -18,89 +18,129 @@ func checkError(e error) {
 func (p *project) create() {
 	fmt.Println("Starting to generate project", p.name)
 
-	// create directories and files
-	p.walk("internal", "/pkg")
-	p.walk("internal", "/service")
-	p.walk("cmd", "/service")
-	// create single files
-	for file, path := range files {
-		err := p.createFilesAndDirectories(file, path, "", "")
-		checkError(err)
-	}
+	p.walk()
+
 	fmt.Println("Completed.")
 }
 
-func (p *project) walk(key, dir string) {
-	service := make(map[string]int)
-	if strings.Contains(dir, "service") {
-		service = p.services
-	} else {
-		service = map[string]int{"": 0}
-	}
+func (p *project) walk() {
+	var path = os.Getenv("GOPATH") + "/src/github.com/alihanyalcin/micgo/base/"
 
-	for service, port := range service {
-		if service != "" {
-			err := os.MkdirAll(p.name+"/"+key+"/"+service, 0775)
-			checkError(err)
+	name := strings.Split(path, "/")
+	// get index of "base" key word
+	index := func() int {
+		for k, v := range name {
+			if v == "base" {
+				return k
+			}
 		}
-		err := filepath.Walk(basePath+key+dir,
-			func(path string, info os.FileInfo, err error) error {
-				if err != nil {
-					return err
-				}
+		return 0
+	}()
 
-				name := strings.Split(path, "/")
-				// get index of key
-				index := func() int {
-					for k, v := range name {
-						if v == key {
-							return k
+	err := filepath.Walk(path,
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			d := strings.Split(path, "/")
+			destination := strings.Join(d[index+1:], "/")
+			if info.IsDir() { // directories
+				if strings.Contains(path, "service") {
+					for service, _ := range p.services {
+						destinationPath := strings.Replace(destination, "service", service, -1)
+						err := p.createProjectDirectories(destinationPath)
+						if err != nil {
+							return err
 						}
 					}
-					return 0
-				}()
-
-				fileName := strings.Join(name[index:], "/")
-				//fmt.Println(p.name+"/"+fileName)
-
-				err = p.createFilesAndDirectories(fileName, path, service, strconv.Itoa(port))
-				if err != nil {
-					return err
+				} else {
+					err := p.createProjectDirectories(destination)
+					if err != nil {
+						return err
+					}
 				}
+			} else { // files
+				if strings.Contains(path, "service") {
+					for service, port := range p.services {
+						destinationPath := strings.Replace(destination, "service", service, -1)
+						err := p.createProjectFiles(path, destinationPath, service, strconv.Itoa(port))
+						if err != nil {
+							return err
+						}
+					}
+				} else {
+					err := p.createProjectFiles(path, destination, "", "")
+					if err != nil {
+						return err
+					}
+				}
+			}
+			return nil
+		})
+	checkError(err)
 
-				return nil
-			})
-		checkError(err)
-	}
 }
 
-func (p *project) createFilesAndDirectories(fileName, path, service, port string) error {
-	if strings.Contains(fileName, ".go") ||
-		strings.Contains(fileName, "Dockerfile") ||
-		strings.Contains(fileName, ".toml") ||
-		strings.Contains(fileName, ".md") ||
-		strings.Contains(fileName, ".mod") ||
-		strings.Contains(fileName, "VERSION") {
-		source, err := ioutil.ReadFile(path)
-		if err != nil {
-			return err
-		}
-		replacer := strings.NewReplacer("project", p.name,
+func (p *project) createProjectFiles(sourcePath, destinationPath, service, port string) error {
+	s, err := ioutil.ReadFile(sourcePath)
+	if err != nil {
+		return err
+	}
+	var replacer *strings.Replacer
+	if strings.Contains(sourcePath, "Makefile") {
+		replacer = p.createMakefile()
+	} else {
+		replacer = strings.NewReplacer("project", p.name,
 			"servicename", service,
 			"portnumber", port)
-
-		destination := replacer.Replace(string(source))
-		destPath := p.name + "/" + strings.Replace(fileName, "service", service, -1)
-		err = ioutil.WriteFile(destPath, []byte(destination), 0644)
-		if err != nil {
-			return err
-		}
-		fmt.Println(destPath, "created.")
-	} else {
-		err := os.MkdirAll(p.name+"/"+strings.Replace(fileName, "service", service, -1), 0775)
-		if err != nil {
-			return err
-		}
 	}
+
+	d := replacer.Replace(string(s))
+	path := p.name + "/" + destinationPath
+	err = ioutil.WriteFile(path, []byte(d), 0644)
+	if err != nil {
+		return err
+	}
+	fmt.Println(path, "file created.")
 	return nil
+}
+
+func (p *project) createProjectDirectories(destinationPath string) error {
+	path := p.name + "/" + destinationPath
+	err := os.MkdirAll(path, 0775)
+	if err != nil {
+		return err
+	}
+	fmt.Println(path, "directory created.")
+	return nil
+}
+
+func (p *project) createMakefile() *strings.Replacer {
+	var docker = "docker_servicename"
+	var dockers string
+
+	var microservice = "cmd/servicename/servicename"
+	var microservices string
+
+	var build = "cmd/servicename/servicename:\n\t$(GO) build $(GOFLAGS) -o $@ ./cmd/servicename"
+	var builds string
+
+	var dockerBuild = "docker_servicename:\n" +
+		"\tdocker build \\\n" +
+		"\t\t-f cmd/servicename/Dockerfile \\\n" +
+		"\t\t-t project/docker-servicename:$(VERSION) \\\n" +
+		"\t\t."
+	var dockerBuilds string
+
+	for service, _ := range p.services {
+		dockers += strings.Replace(docker, "servicename", service, -1) + " "
+		microservices += strings.Replace(microservice, "servicename", service, -1) + " "
+		builds += "\n" + strings.Replace(build, "servicename", service, -1) + "\n"
+		dockerBuilds += "\n" + strings.NewReplacer("servicename", service, "project", p.name).Replace(dockerBuild) + "\n"
+	}
+	return strings.NewReplacer("project", p.name,
+		"microservices", microservices,
+		"builds", builds,
+		"dockers", dockers,
+		"dockerbuilds", dockerBuilds)
 }

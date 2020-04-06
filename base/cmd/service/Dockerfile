@@ -15,7 +15,7 @@ RUN make cmd/servicename/servicename
 
 FROM scratch
 
-EXPOSE 48082
+EXPOSE portnumber
 
 COPY --from=builder /bin/bash /bin/bash
 COPY --from=builder /go/src/project/cmd/servicename/servicename /
