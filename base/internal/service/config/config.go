@@ -1,8 +1,8 @@
 package config
 
 import (
-	"project/internal/pkg/bootstrap/interfaces"
-	"project/internal/pkg/config"
+	"{project}/internal/pkg/bootstrap/interfaces"
+	"{project}/internal/pkg/config"
 )
 
 type ConfigurationStruct struct {

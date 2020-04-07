@@ -2,9 +2,9 @@ package telemetry
 
 import (
 	"context"
-	"project/internal/pkg/bootstrap/container"
-	"project/internal/pkg/bootstrap/startup"
-	"project/internal/pkg/di"
+	"{project}/internal/pkg/bootstrap/container"
+	"{project}/internal/pkg/bootstrap/startup"
+	"{project}/internal/pkg/di"
 	"runtime"
 	"sync"
 	"time"

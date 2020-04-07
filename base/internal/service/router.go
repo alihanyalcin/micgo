@@ -1,10 +1,10 @@
-package servicename
+package {servicename}
 
 import (
 	"github.com/gorilla/mux"
 	"net/http"
-	"project/internal/pkg"
-	"project/internal/pkg/telemetry"
+	"{project}/internal/pkg"
+	"{project}/internal/pkg/telemetry"
 )
 
 func LoadRestRoutes() *mux.Router {

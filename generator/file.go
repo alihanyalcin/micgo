@@ -94,9 +94,9 @@ func (p *project) createProjectFiles(sourcePath, destinationPath, service, port 
 		replacer = p.createScript()
 		perm = 0775
 	} else {
-		replacer = strings.NewReplacer("project", p.name,
-			"servicename", service,
-			"portnumber", port)
+		replacer = strings.NewReplacer("{project}", p.name,
+			"{servicename}", service,
+			"{portnumber}", port)
 	}
 
 	d := replacer.Replace(string(s))
@@ -142,11 +142,11 @@ func (p *project) createMakefile() *strings.Replacer {
 		builds += "\n" + strings.Replace(build, "servicename", service, -1) + "\n"
 		dockerBuilds += "\n" + strings.NewReplacer("servicename", service, "project", p.name).Replace(dockerBuild) + "\n"
 	}
-	return strings.NewReplacer("project", p.name,
-		"microservices", microservices,
-		"builds", builds,
-		"dockers", dockers,
-		"dockerbuilds", dockerBuilds)
+	return strings.NewReplacer("{project}", p.name,
+		"{microservices}", microservices,
+		"{builds}", builds,
+		"{dockers}", dockers,
+		"{dockerbuilds}", dockerBuilds)
 }
 
 func (p *project) createScript() *strings.Replacer {
@@ -160,6 +160,6 @@ func (p *project) createScript() *strings.Replacer {
 		services += strings.NewReplacer("servicename", service, "project", p.name).Replace(microservice) + "\n"
 	}
 
-	return strings.NewReplacer("project", p.name,
-		"services", services)
+	return strings.NewReplacer("{project}", p.name,
+		"{services}", services)
 }

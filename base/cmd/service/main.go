@@ -2,19 +2,19 @@ package main
 
 import (
 	"flag"
-	"project"
-	"project/internal"
-	"project/internal/pkg/bootstrap"
-	"project/internal/pkg/bootstrap/handlers/database"
-	"project/internal/pkg/bootstrap/handlers/httpserver"
-	"project/internal/pkg/bootstrap/handlers/message"
-	"project/internal/pkg/bootstrap/interfaces"
-	"project/internal/pkg/bootstrap/startup"
-	"project/internal/pkg/di"
-	"project/internal/pkg/telemetry"
-	"project/internal/pkg/usage"
-	"project/internal/servicename"
-	"project/internal/servicename/config"
+	"{project}"
+	"{project}/internal"
+	"{project}/internal/pkg/bootstrap"
+	"{project}/internal/pkg/bootstrap/handlers/database"
+	"{project}/internal/pkg/bootstrap/handlers/httpserver"
+	"{project}/internal/pkg/bootstrap/handlers/message"
+	"{project}/internal/pkg/bootstrap/interfaces"
+	"{project}/internal/pkg/bootstrap/startup"
+	"{project}/internal/pkg/di"
+	"{project}/internal/pkg/telemetry"
+	"{project}/internal/pkg/usage"
+	"{project}/internal/{servicename}"
+	"{project}/internal/{servicename}/config"
 )
 
 func main() {
@@ -30,20 +30,20 @@ func main() {
 	configuration := &config.ConfigurationStruct{}
 	dic := di.NewContainer(di.ServiceConstructorMap{})
 
-	httpServer := httpserver.NewBootstrap(servicename.LoadRestRoutes())
+	httpServer := httpserver.NewBootstrap({servicename}.LoadRestRoutes())
 	bootstrap.Run(
 		configDir,
 		profileDir,
 		internal.ConfigFileName,
-		"servicename",
+		"{servicename}",
 		configuration,
 		startupTimer,
 		dic,
 		[]interfaces.BootstrapHandler{
 			database.NewDatabase(&httpServer, configuration).BootstrapHandler,
-			servicename.BootstrapHandler,
+			{servicename}.BootstrapHandler,
 			httpServer.BootstrapHandler,
 			telemetry.BootstrapHandler,
-			message.NewBootstrap("servicename", project.Version).BootstrapHandler,
+			message.NewBootstrap("{servicename}", {project}.Version).BootstrapHandler,
 		})
 }

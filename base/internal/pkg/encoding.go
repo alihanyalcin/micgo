@@ -3,7 +3,7 @@ package pkg
 import (
 	"encoding/json"
 	"net/http"
-	"project/internal/pkg/logger"
+	"{project}/internal/pkg/logger"
 )
 
 func Encode(i interface{}, w http.ResponseWriter, LoggingClient logger.LoggingClient) {

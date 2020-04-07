@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"sync"
 
-	"project/internal/pkg/bootstrap/container"
-	"project/internal/pkg/bootstrap/startup"
-	"project/internal/pkg/di"
+	"{project}/internal/pkg/bootstrap/container"
+	"{project}/internal/pkg/bootstrap/startup"
+	"{project}/internal/pkg/di"
 )
 
 // StartMessage contains references to dependencies required by the start message handler.

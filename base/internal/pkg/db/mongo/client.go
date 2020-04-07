@@ -5,7 +5,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"project/internal/pkg/db"
+	"{project}/internal/pkg/db"
 	"strconv"
 	"time"
 )

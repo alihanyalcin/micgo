@@ -1,8 +1,8 @@
 package logging
 
 import (
-	"project/internal/pkg/bootstrap/interfaces"
-	"project/internal/pkg/logger"
+	"{project}/internal/pkg/bootstrap/interfaces"
+	"{project}/internal/pkg/logger"
 )
 
 // FactoryToStdout returns a logger.LoggingClient that outputs to stdout.

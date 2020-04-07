@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"project/internal/pkg/bootstrap/interfaces"
+	"{project}/internal/pkg/bootstrap/interfaces"
 
 	"github.com/BurntSushi/toml"
 )

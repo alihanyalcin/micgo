@@ -1,6 +1,6 @@
 package interfaces
 
-import "project/internal/pkg/config"
+import "{project}/internal/pkg/config"
 
 // Database interface provides an abstraction for obtaining the database configuration information.
 type Database interface {

@@ -2,7 +2,7 @@ package configuration
 
 import (
 	"os"
-	"project/internal/pkg/config"
+	"{project}/internal/pkg/config"
 	"strconv"
 )
 

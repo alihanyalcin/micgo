@@ -1,8 +1,8 @@
 package container
 
 import (
-	"project/internal/pkg/bootstrap/interfaces"
-	"project/internal/pkg/di"
+	"{project}/internal/pkg/bootstrap/interfaces"
+	"{project}/internal/pkg/di"
 )
 
 // ConfigurationInterfaceName contains the name of the interfaces.Configuration implementation in the DIC.

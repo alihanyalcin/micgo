@@ -1,8 +1,8 @@
 package container
 
 import (
-	"project/internal/pkg/db/interfaces"
-	"project/internal/pkg/di"
+	"{project}/internal/pkg/db/interfaces"
+	"{project}/internal/pkg/di"
 )
 
 // DBClientInterfaceName contains the name of the interfaces.DBClient implementation in the DIC.

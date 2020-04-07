@@ -1,8 +1,8 @@
 package container
 
 import (
-	"project/internal/pkg/di"
-	"project/internal/pkg/logger"
+	"{project}/internal/pkg/di"
+	"{project}/internal/pkg/logger"
 )
 
 // LoggingClientInterfaceName contains the name of the logger.LoggingClient implementation in the DIC.

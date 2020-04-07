@@ -2,8 +2,8 @@ package interfaces
 
 import (
 	"context"
-	"project/internal/pkg/bootstrap/startup"
-	"project/internal/pkg/di"
+	"{project}/internal/pkg/bootstrap/startup"
+	"{project}/internal/pkg/di"
 	"sync"
 )
 

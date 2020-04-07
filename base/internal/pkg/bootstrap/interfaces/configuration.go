@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"project/internal/pkg/config"
+	"{project}/internal/pkg/config"
 )
 
 // BootstrapConfiguration defines the configuration elements required by the bootstrap.

@@ -3,12 +3,12 @@
 DIR=$PWD
 CMD=../cmd
 
-# Kill all project-* stuff
+# Kill all {project}-* stuff
 function cleanup {
-	pkill project
+	pkill {project}
 }
 
-services
+{services}
 
 trap cleanup EXIT
 

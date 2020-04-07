@@ -3,16 +3,16 @@ BootTimeout = 30000
 ClientMonitor = 15000
 CheckInterval = '10s'
 Host = 'localhost'
-Port = portnumber
+Port = {portnumber}
 Protocol = 'http'
 MaxResultCount = 50000
-StartupMsg = 'This is the servicename Microservice'
+StartupMsg = 'This is the {servicename} Microservice'
 Timeout = 5000
 
 [Databases]
   [Databases.Primary]
   Host = '127.0.0.1'
-  Name = 'servicename'
+  Name = '{servicename}'
   Username = ''
   Password = ''
   Port = 27017

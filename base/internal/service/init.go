@@ -1,11 +1,11 @@
-package servicename
+package {servicename}
 
 import (
 	"context"
-	"project/internal/pkg/bootstrap/container"
-	"project/internal/pkg/bootstrap/startup"
-	"project/internal/pkg/di"
-	"project/internal/pkg/logger"
+	"{project}/internal/pkg/bootstrap/container"
+	"{project}/internal/pkg/bootstrap/startup"
+	"{project}/internal/pkg/di"
+	"{project}/internal/pkg/logger"
 	"sync"
 )
 
