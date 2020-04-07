@@ -15,8 +15,7 @@ type project struct {
 func Run(args []string) {
 	length := len(args)
 	if length == 0 || args[0] != "generate" || length < 3 {
-		// TODO: Write help
-		fmt.Println("HELP!")
+		helpCall()
 		return
 	}
 
@@ -32,8 +31,7 @@ func Run(args []string) {
 	for _, service := range args[2:] {
 		s := strings.Split(service, ":")
 		if len(s) != 2 {
-			// TODO: Write help
-			fmt.Println("HELP!")
+			helpCall()
 			return
 		}
 		// check service name
@@ -61,8 +59,7 @@ func checkNameValid(name string) bool {
 	validName, _ := regexp.MatchString("^[a-zA-Z0-9_-]+$", name)
 	if !validName {
 		fmt.Println("Invalid name:", name)
-		// TODO: Write help
-		fmt.Println("HELP!")
+		helpCall()
 		return false
 	}
 	if len(names) < 1 {
@@ -71,8 +68,7 @@ func checkNameValid(name string) bool {
 		for _, v := range names {
 			if v == name {
 				fmt.Println("Duplicate service names:", name)
-				// TODO: Write help
-				fmt.Println("HELP!")
+				helpCall()
 				return false
 			}
 		}
@@ -87,15 +83,13 @@ var ports []int
 func checkPortValid(port string) (bool, int) {
 	p, err := strconv.Atoi(port)
 	if err != nil {
-		fmt.Println("Port number should be numeric:", port)
-		// TODO: Write help
-		fmt.Println("HELP!")
+		fmt.Println("Port number should be numeric")
+		helpCall()
 		return false, 0
 	}
 	if p <= 1023 || p >= 49151 {
 		fmt.Println("Invalid port:", port)
-		// TODO: Write help
-		fmt.Println("HELP!")
+		helpCall()
 		return false, 0
 	}
 	if len(ports) < 1 {
@@ -104,12 +98,20 @@ func checkPortValid(port string) (bool, int) {
 		for _, v := range ports {
 			if v == p {
 				fmt.Println("Duplicate service ports:", port)
-				// TODO: Write help
-				fmt.Println("HELP!")
+				helpCall()
 				return false, 0
 			}
 		}
 		ports = append(ports, p)
 	}
 	return true, p
+}
+
+var help = `
+Usage: go run github.com/alihanyalcin/micgo generate <project_name> <service_name1>:<service_port1> <service_name2>:<service_port2> ... <service_nameX>:<service_portX>
+Example: go run github.com/alihanyalcin/micgo generate testproject test1:12300 test2:12301
+`
+
+func helpCall() {
+	fmt.Print(help)
 }
