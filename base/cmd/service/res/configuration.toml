@@ -11,7 +11,7 @@ Timeout = 5000
 
 [Databases]
   [Databases.Primary]
-  Host = '127.0.0.1'
+  Host = 'localhost'
   Name = '{servicename}'
   Username = ''
   Password = ''
