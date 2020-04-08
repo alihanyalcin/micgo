@@ -93,6 +93,8 @@ func (p *project) createProjectFiles(sourcePath, destinationPath, service, port 
 	} else if strings.Contains(sourcePath, ".sh") {
 		replacer = p.createScript()
 		perm = 0775
+	} else if strings.Contains(sourcePath, ".yml") {
+		replacer = p.createDockerCompose()
 	} else {
 		replacer = strings.NewReplacer("{project}", p.name,
 			"{servicename}", service,
@@ -132,7 +134,7 @@ func (p *project) createMakefile() *strings.Replacer {
 	var dockerBuild = "docker_servicename:\n" +
 		"\tdocker build \\\n" +
 		"\t\t-f cmd/servicename/Dockerfile \\\n" +
-		"\t\t-t project/docker-servicename:$(VERSION) \\\n" +
+		"\t\t-t project/servicename:$(VERSION) \\\n" +
 		"\t\t."
 	var dockerBuilds string
 
@@ -162,4 +164,20 @@ func (p *project) createScript() *strings.Replacer {
 
 	return strings.NewReplacer("{project}", p.name,
 		"{services}", services)
+}
+
+func (p *project) createDockerCompose() *strings.Replacer {
+	var dockerservice = "  {servicename}:\n" +
+		"    image: {project}/{servicename}:1.0\n" +
+		"    container_name: {project}-{servicename}\n" +
+		"    restart: always\n" +
+		"    ports:\n" +
+		"     - {portnumber}:{portnumber}\n"
+	var dockerservices string
+
+	for service, port := range p.services {
+		dockerservices += strings.NewReplacer("{servicename}", service, "{project}", p.name, "{portnumber}", strconv.Itoa(port)).Replace(dockerservice)
+	}
+	return strings.NewReplacer("{project}", p.name,
+		"{dockerservices}", dockerservices)
 }
