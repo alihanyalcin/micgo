@@ -127,7 +127,7 @@ func (p *project) createMakefile() *strings.Replacer {
 	var dockerBuild = "docker_servicename:\n" +
 		"\tdocker build \\\n" +
 		"\t\t-f cmd/servicename/Dockerfile \\\n" +
-		"\t\t-t project/servicename:$(VERSION) \\\n" +
+		"\t\t-t project/servicename:$(DOCKER_TAG) \\\n" +
 		"\t\t."
 	var dockerBuilds string
 
