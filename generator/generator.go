@@ -50,6 +50,7 @@ func Run(args []string) {
 		name:     projectName,
 		services: services,
 	}
+	// Create project files
 	p.create()
 }
 

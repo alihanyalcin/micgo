@@ -20,7 +20,7 @@ func (p *project) create() {
 
 	p.walk()
 
-	fmt.Println("Completed.")
+	fmt.Print("Completed. ")
 }
 
 func (p *project) walk() {
@@ -28,14 +28,7 @@ func (p *project) walk() {
 
 	name := strings.Split(path, "/")
 	// get index of "base" key word
-	index := func() int {
-		for k, v := range name {
-			if v == "base" {
-				return k
-			}
-		}
-		return 0
-	}()
+	index := len(name) - 2
 
 	err := filepath.Walk(path,
 		func(path string, info os.FileInfo, err error) error {
