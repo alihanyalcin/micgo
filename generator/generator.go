@@ -110,7 +110,7 @@ func checkPortValid(port string) (bool, int) {
 
 var help = `
 Usage: go run github.com/alihanyalcin/micgo generate <project_name> <service_name1>:<service_port1> <service_name2>:<service_port2> ... <service_nameX>:<service_portX>
-Example: go run github.com/alihanyalcin/micgo generate testproject test1:12300 test2:12301
+Example: go run github.com/alihanyalcin/micgo generate testproject service1:12300 service2:12301
 `
 
 func helpCall() {

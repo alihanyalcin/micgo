@@ -9,12 +9,6 @@ import (
 	"strings"
 )
 
-func checkError(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
 func (p *project) create() {
 	fmt.Println("Starting to generate project", p.name)
 
@@ -70,7 +64,10 @@ func (p *project) walk() {
 			}
 			return nil
 		})
-	checkError(err)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
 
 }
 
