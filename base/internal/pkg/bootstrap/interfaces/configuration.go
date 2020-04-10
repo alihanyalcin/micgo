@@ -6,7 +6,6 @@ import (
 
 // BootstrapConfiguration defines the configuration elements required by the bootstrap.
 type BootstrapConfiguration struct {
-	Clients map[string]config.ClientInfo
 	Service config.ServiceInfo
 	Logging config.LoggingInfo
 	Startup config.StartupInfo

@@ -36,7 +36,7 @@ func NewDatabase(httpServer httpServer, database interfaces.Database) Database {
 
 // Return the dbClient interface
 func (d Database) newDBClient(loggingClient logger.LoggingClient) (dbInterfaces.DBClient, error) {
-	databaseInfo := d.database.GetDatabaseInfo()["Primary"]
+	databaseInfo := d.database.GetDatabaseInfo()
 	switch databaseInfo.Type {
 	case db.MongoDB:
 		return mongo.NewClient(
