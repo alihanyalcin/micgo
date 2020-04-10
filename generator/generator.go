@@ -44,10 +44,10 @@ func Run(args []string) {
 		if !checkPortNumber {
 			return
 		}
-		services[s[0]] = port
+		services[strings.ToLower(s[0])] = port
 	}
 	p := project{
-		name:     projectName,
+		name:     strings.ToLower(projectName),
 		services: services,
 	}
 	// Create project files
