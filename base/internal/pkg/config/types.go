@@ -44,7 +44,7 @@ type StartupInfo struct {
 }
 
 // DatabaseInfo defines the parameters necessary for connecting to the desired persistence layer.
-type DatabaseInfo map[string]Database
+type DatabaseInfo Database
 
 type Database struct {
 	Credentials
