@@ -17,7 +17,6 @@ Type = 'mongodb'
 
 [Logging]
 LogLevel = 'TRACE'
-EnableRemote = false
 File = './logs/test.log'
 
 [Startup]

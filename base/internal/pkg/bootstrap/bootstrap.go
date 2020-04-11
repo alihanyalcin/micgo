@@ -63,6 +63,8 @@ func Run(
 		fatalError(err, loggingClient)
 	}
 
+	loggingClient = logging.FactoryFromConfiguration(serviceKey, config)
+
 	bootstrapConfig := config.GetBootstrap()
 	startupInfo := configuration.OverrideFromEnvironment(bootstrapConfig.Startup)
 

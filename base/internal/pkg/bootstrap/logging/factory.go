@@ -7,17 +7,15 @@ import (
 
 // FactoryToStdout returns a logger.LoggingClient that outputs to stdout.
 func FactoryToStdout(serviceKey string) logger.LoggingClient {
-	return logger.NewClientStdOut(serviceKey, false, logger.DebugLog)
+	return logger.NewClientStdOut(serviceKey, logger.DebugLog)
 }
 
 // FactoryFromConfiguration returns a logger.LoggingClient based on configuration settings.
 func FactoryFromConfiguration(serviceKey string, config interfaces.Configuration) logger.LoggingClient {
 	var target string
 	bootstrapConfig := config.GetBootstrap()
-	if bootstrapConfig.Logging.EnableRemote {
-		//target = bootstrapConfig.Clients["Logging"].Url() + clients.ApiLoggingRoute
-	} else {
-		target = bootstrapConfig.Logging.File
-	}
-	return logger.NewClient(serviceKey, bootstrapConfig.Logging.EnableRemote, target, config.GetLogLevel())
+	
+	target = bootstrapConfig.Logging.File
+	
+	return logger.NewClient(serviceKey, target, config.GetLogLevel())
 }

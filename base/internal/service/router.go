@@ -27,6 +27,7 @@ func pingHandler(w http.ResponseWriter, _ *http.Request) {
 	w.Write([]byte("pong"))
 }
 
+// metricHandler implements a controller to execute a metric request.
 func metricHandler(w http.ResponseWriter, _ *http.Request) {
 	s := telemetry.NewSystemUsage()
 

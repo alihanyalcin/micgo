@@ -32,9 +32,8 @@ func (s ServiceInfo) Url() string {
 
 // LoggingInfo provides basic parameters related to where logs should be written.
 type LoggingInfo struct {
-	EnableRemote bool
-	File         string
-	LogLevel     string
+	File     string
+	LogLevel string
 }
 
 // StartupInfo provides the startup timer values which are applied to the StartupTimer created at boot.

@@ -14,6 +14,7 @@ var LoggingClient logger.LoggingClient
 func BootstrapHandler(wg *sync.WaitGroup, ctx context.Context, startupTimer startup.Timer, dic *di.Container) bool {
 
 	LoggingClient = container.LoggingClientFrom(dic.Get)
+	LoggingClient.Info("{servicename} microservice is initializing.")
 
 	return true
 }

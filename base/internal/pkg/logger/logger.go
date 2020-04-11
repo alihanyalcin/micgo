@@ -33,7 +33,6 @@ type LoggingClient interface {
 
 type logger struct {
 	owningServiceName string
-	remoteEnabled     bool
 	logTarget         string
 	logLevel          *string
 	rootLogger        log.Logger
@@ -45,8 +44,8 @@ type fileWriter struct {
 }
 
 // NewClient creates an instance of LoggingClient
-func NewClient(owningServiceName string, isRemote bool, logTarget string, logLevel string) LoggingClient {
-	lc := newClient(owningServiceName, isRemote, logTarget, logLevel)
+func NewClient(owningServiceName string, logTarget string, logLevel string) LoggingClient {
+	lc := newClient(owningServiceName, logTarget, logLevel)
 
 	if logTarget == "" {
 		lc.Error("logTarget cannot be blank, using stdout only")
@@ -56,12 +55,12 @@ func NewClient(owningServiceName string, isRemote bool, logTarget string, logLev
 }
 
 // NewClientStdOut creates an instance of LoggingClient that expects to log to stdout and does not check logTarget
-func NewClientStdOut(owningServiceName string, isRemote bool, logLevel string) LoggingClient {
-	return newClient(owningServiceName, isRemote, "", logLevel)
+func NewClientStdOut(owningServiceName string, logLevel string) LoggingClient {
+	return newClient(owningServiceName, "", logLevel)
 }
 
 // newClient is the implementation of the logic required for the factory functions
-func newClient(owningServiceName string, isRemote bool, logTarget string, logLevel string) logger {
+func newClient(owningServiceName string, logTarget string, logLevel string) logger {
 	if !IsValidLogLevel(logLevel) {
 		logLevel = InfoLog
 	}
@@ -69,12 +68,11 @@ func newClient(owningServiceName string, isRemote bool, logTarget string, logLev
 	// Set up logging client
 	lc := logger{
 		owningServiceName: owningServiceName,
-		remoteEnabled:     isRemote,
 		logTarget:         logTarget,
 		logLevel:          &logLevel,
 	}
 
-	if !lc.remoteEnabled && logTarget != "" { // file based logging
+	if logTarget != "" { // file based logging
 		verifyLogDirectory(lc.logTarget)
 
 		w, err := newFileWriter(lc.logTarget)
@@ -145,12 +143,6 @@ func (lc logger) log(logLevel string, msg string, args ...interface{}) {
 		if name == logLevel {
 			return
 		}
-	}
-
-	if lc.remoteEnabled {
-		// Send to logging service
-		logEntry := lc.buildLogEntry(logLevel, msg, args...)
-		lc.sendLog(logEntry)
 	}
 
 	if args == nil {
@@ -224,14 +216,4 @@ func (lc logger) buildLogEntry(logLevel string, msg string, args ...interface{})
 	res.OriginService = lc.owningServiceName
 
 	return res
-}
-
-// Send the log as an http request
-func (lc logger) sendLog(logEntry LogEntry) {
-	/*go func() {
-		_, err := clients.PostJsonRequest(lc.logTarget, logEntry, context.Background())
-		if err != nil {
-			fmt.Println(err.Error())
-		}
-	}()*/
 }
