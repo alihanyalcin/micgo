@@ -13,7 +13,7 @@ The generated project has;
 
 # Usage
 
-Download micgo:
+Download **micgo**:
 ```go
 go get -u github.com/alihanyalcin/micgo
 ```
@@ -24,13 +24,13 @@ go run github.com/alihanyalcin/micgo generate testproject service1:12300 service
 This command generates a project named **testproject**. **testproject** includes two services. One of the services is **service1** that serves on port **12300** and the other one is **service2** that serves on port **12301**.
 
 ------
-NOTE: If you want to generate your project, use the template:
+**NOTE:** If you want to generate your project, use the template:
 ```go
 go run github.com/alihanyalcin/micgo generate <project_name> <service_name1>:<service_port1> <service_name2>:<service_port2> ... <service_nameX>:<service_portX>
 ```
 ------
 
-Go to testproject directory and build it: 
+Go to **testproject** directory and build it: 
 ```sh
 cd testproject
 make build
@@ -55,4 +55,7 @@ To run the project with **Docker Compose**:
 sudo make docker
 sudo docker-compose up
 ```
-**NOTE:** The Docker-compose file contains MongoDB and the microservices. So, if you have MongoDB running on your system, stop it. 
+**NOTE:** The Docker-compose file contains **MongoDB** and the microservices. So, if you have **MongoDB** running on your system, **stop** it. 
+
+## Generated Project Structure
+
