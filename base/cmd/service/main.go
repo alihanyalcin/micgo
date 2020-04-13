@@ -11,7 +11,6 @@ import (
 	"{project}/internal/pkg/bootstrap/interfaces"
 	"{project}/internal/pkg/bootstrap/startup"
 	"{project}/internal/pkg/di"
-	"{project}/internal/pkg/telemetry"
 	"{project}/internal/pkg/usage"
 	"{project}/internal/{servicename}"
 	"{project}/internal/{servicename}/config"
@@ -43,7 +42,6 @@ func main() {
 			database.NewDatabase(&httpServer, configuration).BootstrapHandler,
 			{servicename}.BootstrapHandler,
 			httpServer.BootstrapHandler,
-			telemetry.BootstrapHandler,
 			message.NewBootstrap("{servicename}", {project}.Version).BootstrapHandler,
 		})
 }
