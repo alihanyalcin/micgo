@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -18,13 +19,19 @@ func (p *project) create() {
 }
 
 func (p *project) walk() {
-	var path = os.Getenv("GOPATH") + "/src/github.com/alihanyalcin/micgo/base/"
+	out, err := exec.Command("go", "env", "GOPATH").Output()
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	gopath := strings.Split(string(out[:len(out)-1]), ":")[0]
+	var path = gopath + "/src/github.com/alihanyalcin/micgo/base/"
 
 	name := strings.Split(path, "/")
 	// get index of "base" key word
 	index := len(name) - 2
 
-	err := filepath.Walk(path,
+	err = filepath.Walk(path,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
