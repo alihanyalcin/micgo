@@ -58,4 +58,87 @@ sudo docker-compose up
 **NOTE:** The Docker-compose file contains **MongoDB** and the microservices. So, if you have **MongoDB** running on your system, **stop** it. 
 
 ## Generated Project Structure
+```
+testproject/
+├── bin
+│   └── launch.sh
+├── cmd
+│   ├── service1
+│   │   ├── Dockerfile
+│   │   ├── main.go
+│   │   └── res
+│   │       ├── configuration.toml
+│   │       └── docker
+│   │           └── configuration.toml
+│   └── service2
+│       ├── Dockerfile
+│       ├── main.go
+│       └── res
+│           ├── configuration.toml
+│           └── docker
+│               └── configuration.toml
+├── docker-compose.yml
+├── go.mod
+├── go.sum
+├── internal
+│   ├── constants.go
+│   ├── pkg
+│   │   ├── bootstrap
+│   │   │   ├── bootstrap.go
+│   │   │   ├── configuration
+│   │   │   │   ├── environment.go
+│   │   │   │   └── file.go
+│   │   │   ├── container
+│   │   │   │   ├── configuration.go
+│   │   │   │   ├── database.go
+│   │   │   │   └── logging.go
+│   │   │   ├── handlers
+│   │   │   │   ├── database
+│   │   │   │   │   └── database.go
+│   │   │   │   ├── httpserver
+│   │   │   │   │   └── httpserver.go
+│   │   │   │   └── message
+│   │   │   │       └── message.go
+│   │   │   ├── interfaces
+│   │   │   │   ├── configuration.go
+│   │   │   │   ├── database.go
+│   │   │   │   └── handler.go
+│   │   │   ├── logging
+│   │   │   │   └── factory.go
+│   │   │   └── startup
+│   │   │       └── timer.go
+│   │   ├── config
+│   │   │   └── types.go
+│   │   ├── db
+│   │   │   ├── db.go
+│   │   │   ├── interfaces
+│   │   │   │   └── db.go
+│   │   │   └── mongo
+│   │   │       ├── client.go
+│   │   │       ├── models
+│   │   │       └── test.go
+│   │   ├── di
+│   │   │   ├── container.go
+│   │   │   └── type.go
+│   │   ├── encoding.go
+│   │   ├── logger
+│   │   │   ├── log_entry.go
+│   │   │   └── logger.go
+│   │   └── usage
+│   │       └── usage.go
+│   ├── service1
+│   │   ├── config
+│   │   │   └── config.go
+│   │   ├── init.go
+│   │   └── router.go
+│   └── service2
+│       ├── config
+│       │   └── config.go
+│       ├── init.go
+│       └── router.go
+├── Makefile
+├── README.md
+├── VERSION
+└── version.go
+```
 
