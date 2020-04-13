@@ -14,7 +14,7 @@ func (p *project) create() {
 
 	p.walk()
 
-	fmt.Print("Completed. ")
+	fmt.Println("Completed.")
 }
 
 func (p *project) walk() {

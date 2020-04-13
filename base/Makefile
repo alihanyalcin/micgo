@@ -11,7 +11,7 @@ MICROSERVICES={microservices}
 .PHONY: $(MICROSERVICES)
 
 VERSION=$(shell cat ./VERSION)
-DOCKER_TAG=$(VERSION)-dev
+DOCKER_TAG=$(VERSION)
 
 GOFLAGS=-ldflags "-X {project}.Version=$(VERSION)"
 

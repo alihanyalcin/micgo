@@ -57,7 +57,7 @@ func Run(args []string) {
 var names []string
 
 func checkNameValid(name string) bool {
-	validName, _ := regexp.MatchString("^[a-zA-Z0-9_-]+$", name)
+	validName, _ := regexp.MatchString("^[a-zA-Z0-9_]+$", name)
 	if !validName {
 		fmt.Println("Invalid name:", name)
 		helpCall()
