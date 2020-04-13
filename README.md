@@ -3,8 +3,8 @@
 
 micgo creates a starting point for your microservice-based application and you can only focus to develop your **REST APIs** needed by your business. 
 
-The Generated project has; 
+The generated project has; 
 * a **MongoDB** client, 
 * **Dockerfile** for each microservices, 
-* **Makefile** to build, run and dockerize the project,
+* **Makefile** to build, run and dockerize the project, and
 * **docker-compose** file.
