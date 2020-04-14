@@ -66,10 +66,9 @@ func Run(
 	loggingClient = logging.FactoryFromConfiguration(serviceKey, config)
 
 	bootstrapConfig := config.GetBootstrap()
-	startupInfo := configuration.OverrideFromEnvironment(bootstrapConfig.Startup)
 
 	//	Update the startup timer to reflect whatever configuration read, if anything available.
-	startupTimer.UpdateTimer(startupInfo.Duration, startupInfo.Interval)
+	startupTimer.UpdateTimer(bootstrapConfig.Startup.Duration, bootstrapConfig.Startup.Interval)
 
 	dic.Update(di.ServiceConstructorMap{
 		container.ConfigurationInterfaceName: func(get di.Get) interface{} {
