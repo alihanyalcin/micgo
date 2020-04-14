@@ -3,7 +3,7 @@ BootTimeout = 30000
 Host = 'localhost'
 Port = {portnumber}
 Protocol = 'http'
-StartupMsg = 'This is the {servicename} Microservice'
+StartupMsg = 'This is the {servicename} microservice'
 Timeout = 5000
 
 [Databases]
@@ -16,8 +16,8 @@ Timeout = 5000
 Type = 'mongodb'
 
 [Logging]
-LogLevel = 'TRACE'
-File = './logs/test.log'
+LogLevel = 'TRACE' # TRACE, DEBUG, INFO, WARN, ERROR
+File = '' # Enter log file path if you want to save your logs (./logs/test.log)
 
 [Startup]
 Duration = 30
