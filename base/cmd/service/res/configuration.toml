@@ -17,7 +17,7 @@ Type = 'mongodb'
 
 [Logging]
 LogLevel = 'TRACE' # TRACE, DEBUG, INFO, WARN, ERROR
-File = '' # Enter log file path if you want to save your logs (./logs/test.log)
+File = './logs/test.log' # log file path
 
 [Startup]
 Duration = 30
