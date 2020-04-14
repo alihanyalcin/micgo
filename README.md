@@ -4,7 +4,6 @@
 micGo creates a starting point for your microservice-based application and you can only focus to develop your **REST APIs** needed by your business. 
 
 The generated project has; 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Go_Logo_Blue.svg/1200px-Go_Logo_Blue.svg.png" align="right" width="400px" alt="gologo">
 * **MongoDB** client for each services, 
 * **Dockerfile** for each services, 
 * **Makefile** to build, run and dockerize the project, and
@@ -20,7 +19,7 @@ Generate test project:
 ```go
 go run github.com/alihanyalcin/micgo generate testproject service1:12300 service2:12301
 ```
-This command generates a project named **testproject**. **testproject** includes two services. One of the services is **service1** that serves on port **12300** and the other one is **service2** that serves on port **12301**.
+This command generates a project named **testproject**. **testproject** has two services. One of the services is **service1** that serves on port **12300** and the other one is **service2** that serves on port **12301**.
 
 
 >**NOTE:** If you want to generate **your project**, use the template:
@@ -45,7 +44,7 @@ cd bin/
 ```
 **NOTE:** You must have **MongoDB** running on your system before launching the project.
 
-Ping your microservices. You will get 'pong' message if everything is okay.
+Ping your services. You will get 'pong' message if everything is okay.
 - http://localhost:12300/api/v1/ping for service1.
 - http://localhost:12301/api/v1/ping for service2.
 
@@ -60,7 +59,7 @@ sudo docker-compose up
 ```
 testproject/
 ├── bin
-│   └── launch.sh # script to run all your services
+│   └── launch.sh                       # script to run all your services
 ├── cmd
 │   ├── service1                        # main package of service1
 │   │   ├── res                         # configuration files of service1
@@ -77,7 +76,7 @@ testproject/
 │       ├── Dockerfile                  # Docker file of service2
 │       └── main.go                     # starting point of service2
 ├── internal                            # internal development area
-│   ├── pkg
+│   ├── pkg                             # packages used in all services
 │   │   ├── bootstrap                   # bootstrap package
 │   │   │   ├── configuration
 │   │   │   │   ├── environment.go
@@ -131,7 +130,7 @@ testproject/
 │   │   ├── init.go                     # initialize service2
 │   │   └── router.go                   # REST APIs of service2
 │   └── constants.go
-├── docker-compose.yml                  # docker-compose file to deploy the project for development area 
+├── docker-compose.yml                  # docker-compose file to deploy the project
 ├── go.mod                              # required modules
 ├── Makefile                            # makefile to build, run and dockerize
 ├── README.md
