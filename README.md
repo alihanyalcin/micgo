@@ -79,7 +79,6 @@ testproject/
 │   ├── pkg                             # packages used in all services
 │   │   ├── bootstrap                   # bootstrap package
 │   │   │   ├── configuration
-│   │   │   │   ├── environment.go
 │   │   │   │   └── file.go
 │   │   │   ├── container
 │   │   │   │   ├── configuration.go
