@@ -1,8 +1,10 @@
 # micGo
 **Generate microservice architecture based project with Go less than a second.**
 
-micGo creates a starting point for your microservice-based application and you can only focus to develop your **REST APIs** needed by your business. 
-<img src="micGO.png" align="right" width="400px" alt="goxygen logo">
+micGo creates a starting point for your microservice-based application and you can only focus to develop your **REST APIs** needed by your business.
+ 
+<img src="micgo.png" align="right" width="300px" alt="micgo logo">
+
 The generated project has; 
 * **MongoDB** client for each services, 
 * **Dockerfile** for each services, 
