@@ -1,30 +1,26 @@
 # {project}
 
 ### Development Tips
-1. If you want to add new API, go to <project_name>/internal/<service_name>/router.go
-2. If you want to update service configuration, go to <project_name>/cmd/<service_name>/res/configuration.toml
-3. If you want to add new configuration variable:
-* Go to <project_name>/internal/pkg/config/types.go, and append your configuration struct:
+**1.** If you want to add new REST APIs to your microservice, go to **_<project_name>/internal/<service_name>/router.go_** file.
+
+**2.** If you want to update Service, Database, Logging or Startup configuration of your microservice, go to **_<project_name>/cmd/<service_name>/res/configuration.toml_** file.
+
+**3.** If you want to add **new configuration variable**:
+* Go to **_<project_name>/internal/pkg/config/types.go_** file, and append your configuration struct:
 ```go
 type TestInfo struct {
 	Start string
 	End   string
 }
 ```
- * Go to <project_name>/cmd/<service_name>/res/configuration.toml, and append new configuration:
- ```toml
-[Test]
-Start = "Welcome, service start with new configuration"
-End = "Bye, service stop with new configuration"
-```
- * Create test.go file under <project_name>/internal/pkg/bootstrap/interfaces/ directory, and append lines:
+ * Create **test.go** file under **_<project_name>/internal/pkg/bootstrap/interfaces_** directory, and create an interface for new configuration:
  ```go
 type Test interface {
 	// GetTestInfo returns a test information.
 	GetTestInfo() config.TestInfo
 }
 ```
-* Open <project_name>/internal/<service_name>/config/config.go, and add new configuration variable and append GetTestInfo interface.
+* Open **_<project_name>/internal/<service_name>/config/config.go_** file, and add new configuration variable to the service, and **GetTestInfo** interface body.
 ```go
 // Add Test variable
 type ConfigurationStruct struct {
@@ -41,9 +37,16 @@ func (c *ConfigurationStruct) GetTestInfo() config.TestInfo {
 	return c.Test
 }
 ```
-4. Create new handler with new configuration variable.
-* Go to <project_name>/internal/pkg/bootstrap/handlers, and create test directory and test.go.
-* Append codes:
+ * Go to **_<project_name>/cmd/<service_name>/res/configuration.toml_** file, and append new configuration:
+ ```toml
+[Test]
+Start = "Welcome, service start with new configuration"
+End = "Bye, service stop with new configuration"
+```
+**4.** If you want to create **new handler** with **new configuration variable**:
+* Go to **_<project_name>/internal/pkg/bootstrap/handlers_** directory, and create **test** directory.
+* Create **test.go** file under **_<project_name>/internal/pkg/bootstrap/handlers/test_** directory.
+* Add the lines below to **test.go**:
 ```go
 type TestMessage struct {
 	Message interfaces.Test
@@ -75,12 +78,12 @@ func (s TestMessage) BootstrapHandler(
 	return true
 }
 ```
-* then, go to <project_name>/cmd/<service_name>/main.go. And append new BootstrapHandler:
+* Then, go to **_<project_name>/cmd/<service_name>/main.go_** file, and append new **BootstrapHandler** to your **microservice**:
 ```go
 test.NewBootstrap(configuration).BootstrapHandler,
 ```
-* start your service, check log files for new message
+* Start your service, check log files for new message.
 
-5. To add new database methods.
-* Go to <project_name>/internal/pkg/db/interfaces/db.go, and append new method.
-* Go to <project_name>/internal/pkg/db/mongo/, and create a go file for specific database, then implement your method body.
+**5.** To add **new database methods**.
+* Go to **_<project_name>/internal/pkg/db/interfaces/db.go_** file, and append new method to the interface.
+* Go to **_<project_name>/internal/pkg/db/mongo_** directory, and create a **.go** file for **a specific microservice**, then implement your method body.
