@@ -1,7 +1,6 @@
 .PHONY: build clean docker run
 
 GO=CGO_ENABLED=0 GO111MODULE=on go
-GOCGO=CGO_ENABLED=1 GO111MODULE=on go
 
 DOCKERS={dockers}
 .PHONY: $(DOCKERS)
